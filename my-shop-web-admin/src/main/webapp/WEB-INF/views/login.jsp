@@ -51,7 +51,7 @@
                 <div class="col-xs-8">
                     <div class="checkbox icheck">
                         <label>
-                            <input name="isRemember" type="checkbox" > 记住我
+                            <input name="isRemember" type="checkbox" ${isRemember == true ? "checked" : ""}> 记住我
                         </label>
                     </div>
                 </div>

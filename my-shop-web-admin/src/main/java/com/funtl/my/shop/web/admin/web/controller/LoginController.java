@@ -1,6 +1,7 @@
 package com.funtl.my.shop.web.admin.web.controller;
 
 import com.funtl.my.shop.commons.comstant.ConstantUtils;
+import com.funtl.my.shop.commons.utils.CookieUtils;
 import com.funtl.my.shop.domain.User;
 import com.funtl.my.shop.web.admin.dao.UserDao;
 import com.funtl.my.shop.web.admin.service.UserService;
@@ -22,6 +23,8 @@ public class LoginController {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private UserService userService;
 
     /**
      * 跳转登录页面
@@ -29,7 +32,18 @@ public class LoginController {
      * @return
      */
     @RequestMapping(value = {"", "login"}, method = RequestMethod.GET)
-    public String login() {
+    public String login(HttpServletRequest httpServletRequest) {
+        /*取Cookie*/
+        String userInfo = CookieUtils.getCookieValue(httpServletRequest, "userInfo");
+
+        if (!StringUtils.isBlank(userInfo)){
+            String[] split = userInfo.split(":");
+            String email = split[0];
+            String password = split[1];
+            httpServletRequest.setAttribute("email",email);
+            httpServletRequest.setAttribute("password",password);
+            httpServletRequest.setAttribute("isRemember",true);
+        }
         return "login";
     }
 
@@ -44,10 +58,11 @@ public class LoginController {
     public String login(@RequestParam(required = true) String email,
                         @RequestParam(required = true) String password,
                         HttpServletRequest httpServletRequest,
-                        Model model
+                        Model model,
+                        HttpServletResponse httpServletResponse
                         ) throws IOException {
 
-        User user = userDao.getUser(email, password);
+        /*User user = userDao.getUser(email, password);
 
         // 登录失败
         if (user == null) {
@@ -60,6 +75,33 @@ public class LoginController {
             // 将登录信息放入会话
             httpServletRequest.getSession().setAttribute(ConstantUtils.SESSION_USER, user);
             return "redirect:/main";
+        }*/
+
+        User tbUser = userService.login(email, password);
+        Boolean isRemember = httpServletRequest.getParameter("isRemember") == null ? false : true;
+        System.out.println(isRemember);
+
+//        选择不记住
+        if(!isRemember){
+            CookieUtils.deleteCookie(httpServletRequest,httpServletResponse,"userInfo");
+        }
+
+        // 登录失败
+        if (tbUser == null) {
+            model.addAttribute("message", "用户名或密码错误，请重新输入");
+            return login(httpServletRequest);
+        }
+
+        // 登录成功
+        else {
+            // 将登录信息放入会话
+            httpServletRequest.getSession().setAttribute(ConstantUtils.SESSION_USER, tbUser);
+
+//            设置Cookie
+            if (isRemember){
+                CookieUtils.setCookie(httpServletRequest, httpServletResponse,"userInfo",String.format("%s:%s",email,password),7*24*60*60);
+            }
+            return "redirect:/main";
         }
     }
 
@@ -68,9 +110,9 @@ public class LoginController {
      * 注销
      * @return
      */
-    /*@RequestMapping(value = "logout", method = RequestMethod.GET)
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request) {
         request.getSession().invalidate();
         return "redirect:/login";
-    }*/
+    }
 }

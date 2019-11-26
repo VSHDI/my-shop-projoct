@@ -5,4 +5,5 @@
 <!DOCTYPE html>
 <html>
 登录成功
+<a href="/logout">注销</a>
 </html>
