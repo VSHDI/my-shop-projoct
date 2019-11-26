@@ -1,5 +1,6 @@
 package com.funtl.my.shop.web.admin.service;
 
+import com.funtl.my.shop.commons.dto.BaseResult;
 import com.funtl.my.shop.domain.TbUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,8 @@ public interface TbUserService {
      * @return
      */
     public List<TbUser> selectAll();
+
+    BaseResult save(TbUser tbUser);
 
     void deleteById(Long id);
 
