@@ -2,8 +2,10 @@ package com.funtl.my.shop.web.admin.web.controller;
 
 import com.funtl.my.shop.commons.comstant.ConstantUtils;
 import com.funtl.my.shop.commons.utils.CookieUtils;
+import com.funtl.my.shop.domain.TbUser;
 import com.funtl.my.shop.domain.User;
 import com.funtl.my.shop.web.admin.dao.UserDao;
+import com.funtl.my.shop.web.admin.service.TbUserService;
 import com.funtl.my.shop.web.admin.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,8 @@ public class LoginController {
     private UserDao userDao;
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private TbUserService tbUserService;
     /**
      * 跳转登录页面
      *
@@ -61,22 +64,32 @@ public class LoginController {
                         Model model,
                         HttpServletResponse httpServletResponse
                         ) throws IOException {
+        TbUser tbUser = tbUserService.login(email, password);
 
-        /*User user = userDao.getUser(email, password);
+        Boolean isRemember = httpServletRequest.getParameter("isRemember") == null ? false : true;
+        System.out.println(isRemember);
 
-        // 登录失败
-        if (user == null) {
-            model.addAttribute("message", "用户名或密码错误，请重新输入");
-            return login();
+        /*选择不记住*/
+        if(!isRemember){
+            CookieUtils.deleteCookie(httpServletRequest,httpServletResponse,"userInfo");
         }
 
-        // 登录成功
+        if (tbUser == null) {
+            model.addAttribute("message","用户名或密码错误");
+            return login(httpServletRequest);
+        }
         else {
-            // 将登录信息放入会话
-            httpServletRequest.getSession().setAttribute(ConstantUtils.SESSION_USER, user);
-            return "redirect:/main";
-        }*/
+            httpServletRequest.getSession().setAttribute(ConstantUtils.SESSION_USER,tbUser);
 
+            /*设置Cookie*/
+            if (isRemember){
+                CookieUtils.setCookie(httpServletRequest, httpServletResponse,"userInfo",String.format("%s:%s",email,password),7*24*60*60);
+            }
+
+            return "redirect:/main";
+        }
+
+       /*不连接数据库登录
         User tbUser = userService.login(email, password);
         Boolean isRemember = httpServletRequest.getParameter("isRemember") == null ? false : true;
         System.out.println(isRemember);
@@ -102,7 +115,7 @@ public class LoginController {
                 CookieUtils.setCookie(httpServletRequest, httpServletResponse,"userInfo",String.format("%s:%s",email,password),7*24*60*60);
             }
             return "redirect:/main";
-        }
+        }*/
     }
 
 
