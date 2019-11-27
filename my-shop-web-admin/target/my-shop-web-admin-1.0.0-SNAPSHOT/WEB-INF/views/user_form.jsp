@@ -80,7 +80,7 @@
                     <!-- /.box-body -->
                     <div class="box-footer">
                         <button onclick="history.go(-1)" type="button" class="btn btn-default">Cancel</button>
-                        <button type="submit" class="btn btn-info pull-right">Sign in</button>
+                        <a type="button" class="btn btn-info pull-right" href="/user/${id}/save" method="post">Sign in</a>
                     </div>
                     <!-- /.box-footer -->
                 </form:form>

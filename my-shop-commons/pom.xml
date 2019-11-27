@@ -58,6 +58,11 @@
             <version>${jstl.version}</version>
         </dependency>
         <!-- Servlet End -->
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -63,7 +63,7 @@ public class TbUserServiceTest {
     public void testUpdate() {
         TbUser tbUser = tbUserDao.getById(35L);
         tbUser.setUpdated(new Date());
-        tbUser.setUsername("123");
+        tbUser.setUsername("1232333");
 
         tbUserDao.update(tbUser);
     }

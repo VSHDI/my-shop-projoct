@@ -77,6 +77,7 @@
       a.username LIKE CONCAT ('%', #{username}, '%')
     </select>
 
+
     <select id="selectByEmail" resultType="TbUser">
         SELECT
         <include refid="tbUserColums"/>

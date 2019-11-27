@@ -81,9 +81,9 @@
                                         <td>${tbUser.email}</td>
                                         <td><fmt:formatDate value="${tbUser.updated}" pattern="yyyy-MM-dd HH:mm:ss"/> </td>
                                         <td>
-                                            <a href="https://www.baidu.com" type="button" class="btn btn-success btn-sm"><icon class="fa fa-fw fa-tree"></icon>查看</a>
-                                            <a type="button" class="btn btn-primary btn-sm"><i class="fa fa-fw fa-venus-mars"></i>编辑</a>
-                                            <a type="button" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash-o"></i>删除</a>
+                                            <a type="button" class="btn btn-success btn-sm" href="/user/detail"><icon class="fa fa-fw fa-tree"></icon>查看</a>
+                                            <a type="button" class="btn btn-primary btn-sm" href="/user/${tbUser.id}/form"><i class="fa fa-fw fa-venus-mars"></i>编辑</a>
+                                            <a type="button" class="btn btn-danger btn-sm" href="/user/${tbUser.id}/delete" method="get"><i class="fa fa-fw fa-trash-o"></i>删除</a>
                                         </td>
                                     </tr>
                                 </c:forEach>

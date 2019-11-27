@@ -5,6 +5,7 @@ import com.funtl.my.shop.domain.TbUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -16,7 +17,10 @@ public interface TbUserService {
      */
     public List<TbUser> selectAll();
 
-    BaseResult save(TbUser tbUser);
+    BaseResult save(TbUser tbUser, HttpSession session);
+    BaseResult update(TbUser tbUser, HttpSession session);
+
+
 
     void deleteById(Long id);
 

@@ -26,4 +26,6 @@ public interface TbUserDao {
     List<TbUser> selectByName(String username);
 
     TbUser selectByEmail(String email);
+
+    TbUser getByName(String username);
 }
