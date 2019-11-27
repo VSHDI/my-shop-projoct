@@ -45,34 +45,34 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form:form cssClass="form-horizontal" action="/user/save" method="post" modelAttribute="tbUser">
+                <form:form id="inputForm" cssClass="form-horizontal" action="/user/save" method="post" modelAttribute="tbUser">
                     <div class="box-body">
                         <div class="form-group">
                             <label for="username" class="col-sm-2 control-label">username</label>
 
                             <div class="col-sm-10">
-                                <form:input path="username" cssClass="form-control" placeholder="请输入用户名"/>
+                                <form:input path="username" cssClass="form-control required" placeholder="请输入用户名"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="password" class="col-sm-2 control-label">Password</label>
 
                             <div class="col-sm-10">
-                                <form:input path="password" cssClass="form-control" placeholder="请输入密码"/>
+                                <form:input path="password" cssClass="form-control required" placeholder="请输入密码"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="phone" class="col-sm-2 control-label">phone</label>
 
                             <div class="col-sm-10">
-                                <form:input path="phone" cssClass="form-control" placeholder="请输入电话号码"/>
+                                <form:input path="phone" cssClass="form-control required mobile" placeholder="请输入电话号码"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="email" class="col-sm-2 control-label">email</label>
 
                             <div class="col-sm-10">
-                                <form:input path="email" cssClass="form-control" placeholder="请输入电子邮箱"/>
+                                <form:input path="email" cssClass="form-control required email" placeholder="请输入电子邮箱"/>
                             </div>
                         </div>
 
