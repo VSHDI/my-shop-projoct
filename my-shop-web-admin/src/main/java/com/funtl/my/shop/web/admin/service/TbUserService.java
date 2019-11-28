@@ -29,4 +29,11 @@ public interface TbUserService {
     List<TbUser> selectByName(String username);
 
     TbUser login(String email, String password);
+
+    /**
+     * 搜索功能
+     * @param keyword
+     * @return
+     */
+    List<TbUser> search(String keyword);
 }

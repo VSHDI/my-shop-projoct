@@ -26,4 +26,11 @@ public interface TbUserDao {
     List<TbUser> selectByName(String username);
 
     TbUser selectByEmail(String email);
+
+    /**
+     * 搜索
+     * @param tbUser
+     * @return
+     */
+    List<TbUser> search(TbUser tbUser);
 }
