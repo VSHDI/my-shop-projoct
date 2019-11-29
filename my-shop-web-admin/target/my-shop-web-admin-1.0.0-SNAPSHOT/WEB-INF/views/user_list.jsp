@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html>
@@ -50,17 +51,45 @@
                                 <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-heart-o"></i>导出</a>
                             </div>
 
-                            <div class="box-tools" >
-                                <form action="/user/search" method="post">
-                                    <div class="input-group input-group-sm" style="width: 150px;">
-                                        <input type="text" name="keyword" class="form-control float-right" placeholder="Search">
+                            <div class="row" style="margin-top: 20px">
+                                <form:form cssClass="form-horizontal" action="/user/search" method="post" modelAttribute="tbUser">
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <div class="form-group">
+                                                <label for="username" class="col-sm-3 control-label">姓名</label>
 
-                                        <div class="input-group-btn">
-                                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                                <div class="col-sm-9">
+                                                    <form:input path="username" cssClass="form-control" placeholder="姓名" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <div class="form-group">
+                                                <label for="email" class="col-sm-3 control-label">邮箱</label>
+
+                                                <div class="col-sm-9">
+                                                    <form:input path="email" cssClass="form-control" placeholder="邮箱" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <div class="form-group">
+                                                <label for="phone" class="col-sm-3 control-label">手机</label>
+
+                                                <div class="col-sm-9">
+                                                    <form:input path="phone" cssClass="form-control" placeholder="手机" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <div class="form-group" >
+                                                <button type="submit" class="btn btn-default" style="margin-left: 44px" ><i class="fa fa-fw fa-search"></i>搜索</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </form>
+                                </form:form>
                             </div>
+
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body table-responsive p-0">

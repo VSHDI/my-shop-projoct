@@ -32,8 +32,8 @@ public interface TbUserService {
 
     /**
      * 搜索功能
-     * @param keyword
+     * @param tbUser
      * @return
      */
-    List<TbUser> search(String keyword);
+    List<TbUser> search(TbUser tbUser);
 }
