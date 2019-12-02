@@ -40,19 +40,13 @@
                                 ${baseResult.message}
                         </div>
                     </c:if>
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">用户列表</h3>
 
-                            <div class="row" style="padding-left: 10px;padding-top: 10px">
-                                <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-medkit"></i>新建</a>
-                                <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-heartbeat"></i>删除</a>
-                                <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-heart"></i>导入</a>
-                                <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-heart-o"></i>导出</a>
+                        <div class="box box-info box-info-search" style="display: none;">
+                            <div class="box-header">
+                                <span>sousuo</span>
                             </div>
-
-                            <div class="row" style="margin-top: 20px">
-                                <form:form cssClass="form-horizontal" action="/user/search" method="post" modelAttribute="tbUser">
+                            <form:form cssClass="form-horizontal" action="/user/search" method="post" modelAttribute="tbUser">
+                                <div class="box-body">
                                     <div class="row">
                                         <div class="col-xs-3">
                                             <div class="form-group">
@@ -81,18 +75,30 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xs-3">
-                                            <div class="form-group" >
-                                                <button type="submit" class="btn btn-default" style="margin-left: 44px" ><i class="fa fa-fw fa-search"></i>搜索</button>
-                                            </div>
-                                        </div>
                                     </div>
-                                </form:form>
-                            </div>
-
+                                </div>
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-info pull-right">搜索</button>
+                                </div>
+                            </form:form>
                         </div>
-                        <!-- /.box-header -->
+
+
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">用户列表</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="row" style="padding-left: 10px;padding-top: 10px">
+                                <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-medkit"></i>新建</a>
+                                <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-heartbeat"></i>删除</a>
+                                <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-heart"></i>导入</a>
+                                <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-heart-o"></i>导出</a>
+                                <button type="submit" class="btn btn-sm btn-primary" onclick="$('.box-info-search').css('display') == 'none' ? $('.box-info-search').show('fast') : $('.box-info-search').hide('fast')"><i class="fa fa-search"></i> 搜索</button>
+                            </div>
+                        </div>
                         <div class="box-body table-responsive p-0">
+
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
@@ -119,11 +125,10 @@
                                         </td>
                                     </tr>
                                 </c:forEach>
-                                
+
                                 </tbody>
                             </table>
                         </div>
-                        <!-- /.box-body -->
                     </div>
                     <!-- /.box -->
                 </div>
