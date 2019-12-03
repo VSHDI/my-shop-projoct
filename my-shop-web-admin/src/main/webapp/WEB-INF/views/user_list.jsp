@@ -89,8 +89,8 @@
                         </div>
                         <div class="box-body">
                             <div class="row" style="padding-left: 10px;padding-top: 10px">
-                                <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-medkit"></i>新建</a>
-                                <button type="button" class="btn btn-default btn-xs" onclick="App.deleteMedium('/user/delete')"><i class="fa fa-fw fa-heartbeat"></i>删除</button>
+                                <a href="/user/form" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-medkit"></i>新建</a>
+                                <button type="button" class="btn btn-default btn-xs" onclick="App.deleteMulti('/user/delete')"><i class="fa fa-fw fa-heartbeat"></i>删除</button>
                                 <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-heart"></i>导入</a>
                                 <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-heart-o"></i>导出</a>
                                 <button type="submit" class="btn btn-sm btn-primary" onclick="$('.box-info-search').css('display') == 'none' ? $('.box-info-search').show('fast') : $('.box-info-search').hide('fast')"><i class="fa fa-search"></i> 搜索</button>
@@ -160,9 +160,10 @@
             {
                 "data":function (row,type,val,meta) {
                     const detailUrl = "/user/detail?id="+row.id;
+                    const deleteUrl = "/user/delete";
                     return '<button type="button" class="btn btn-success btn-sm" onclick="App.showDetail(\'' + detailUrl + '\')"><icon class="fa fa-fw fa-tree"></icon>查看</button>'+
                         '<a href="/user/form?id='+row.id+'" type="button" class="btn btn-primary btn-sm"><i class="fa fa-fw fa-venus-mars"></i>编辑</a>'+
-                        '<a type="button" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash-o"></i>删除</a>';
+                        '<button type="button" class="btn btn-danger btn-sm" onclick="App.deleteSingle(\'' + deleteUrl + '\', \'' + row.id + '\')"><i class="fa fa-fw fa-trash-o"></i>删除</button>';
                 }
             }
         ]

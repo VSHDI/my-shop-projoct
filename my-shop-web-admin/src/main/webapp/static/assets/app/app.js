@@ -1,10 +1,31 @@
 var App = function () {
 
-    //iCheck
+    // iCheck
     var _masterCheckbox;
     var _checkbox;
-    //数组
+
+    // 用于存放 ID 的数组
     var _idArray;
+
+    // 默认的 Dropzone 参数
+    var defaultDropzoneOpts = {
+        url: "",
+        paramName: "dropFile",
+        maxFiles: 1, // 一次性上传的文件数量上限
+        maxFilesize: 2, // 文件大小，单位：MB
+        acceptedFiles: ".jpg,.gif,.png,.jpeg", // 上传的类型
+        addRemoveLinks: true,
+        parallelUploads: 1, // 一次上传的文件数量
+        dictDefaultMessage: '拖动文件至此或者点击上传',
+        dictMaxFilesExceeded: "您最多只能上传 1 个文件！",
+        dictResponseError: '文件上传失败!',
+        dictInvalidFileType: "文件类型只能是*.jpg,*.gif,*.png,*.jpeg",
+        dictFallbackMessage: "浏览器不受支持",
+        dictFileTooBig: "文件过大上传文件最大支持",
+        dictRemoveLinks: "删除",
+        dictCancelUpload: "取消"
+    };
+
     /**
      * 私有方法，初始化 ICheck
      */
@@ -40,27 +61,32 @@ var App = function () {
     };
 
     /**
-     * 查看详情
-     * @param url
+     * 删除单笔记录
+     * @param url 删除链接
+     * @param id 需要删除数据的 ID
      */
-    var handlerShowDetail = function (url) {
-        // 这里是通过 Ajax 请求 html 的方式将 jsp 装载进模态框中
-        $.ajax({
-            url: url,
-            type: "get",
-            dataType: "html",
-            success: function (data) {
-                $("#modal-detail-body").html(data);
-                $("#modal-detail").modal("show");
-            }
+    var handlerDeleteSingle = function (url, id, msg) {
+        // 可选参数
+        if (!msg) msg = null;
+
+        // 将 ID 放入数组中，以便和批量删除通用
+        _idArray = new Array();
+        _idArray.push(id);
+
+        $("#modal-message").html(msg == null ? "您确定删除数据项吗？" : msg);
+        $("#modal-default").modal("show");
+        // 绑定删除事件
+        $("#btnModalOk").bind("click", function () {
+            handlerDeleteData(url);
         });
     };
 
     /**
      * 批量删除
      */
-    var handlerDeleteMulti =  function (url) {
+    var handlerDeleteMulti = function (url) {
         _idArray = new Array();
+
         // 将选中元素的 ID 放入数组中
         _checkbox.each(function () {
             var _id =$(this).attr("id");
@@ -68,66 +94,81 @@ var App = function () {
                 _idArray.push(_id);
             }
         });
+
+        // 判断用户是否选择了数据项
         if (_idArray.length === 0) {
-            $("#modal-message").html("至少选泽一项啊");
+            $("#modal-message").html("您还没有选择任何数据项，请至少选择一项");
         }
         else {
-            $("#modal-message").html("你确定要删除吗");
+            $("#modal-message").html("您确定删除数据项吗？");
         }
+
+        // 点击删除按钮时弹出模态框
         $("#modal-default").modal("show");
 
-        $("#btnModalOk").bind("click",function () {
-            del();
+        // 如果用户选择了数据项则调用删除方法
+        $("#btnModalOk").bind("click", function () {
+            handlerDeleteData(url);
         });
+    };
 
-        /**
-         * 当前私有函数的私有函数
-         */
-        function del() {
-            $("#modal-default").modal("hide");
-            //没有选择则关闭模态框
-            if (_idArray.length === 0) {
-            }
-            //删除数据
-            else {
-                setTimeout(function () {
-                    $.ajax({
-                        "url":url,
-                        "type":"POST",
-                        "data":{"ids":_idArray.toString()},
-                        "dataType": "JSON",
-                        "success": function (data) {
-                            if (data.status === 200) {
+    /**
+     * AJAX 异步删除
+     * @param url
+     */
+    var handlerDeleteData = function (url) {
+        $("#modal-default").modal("hide");
+
+        if (_idArray.length > 0) {
+            // AJAX 异步删除操作
+            setTimeout(function () {
+                $.ajax({
+                    "url": url,
+                    "type": "POST",
+                    "data": {"ids" : _idArray.toString()},
+                    "dataType": "JSON",
+                    "success": function (data) {
+                        // 请求成功后，无论是成功或是失败都需要弹出模态框进行提示，所以这里需要先解绑原来的 click 事件
+                        $("#btnModalOk").unbind("click");
+
+                        // 请求成功
+                        if (data.status === 200) {
+                            // 刷新页面
+                            $("#btnModalOk").bind("click", function () {
                                 window.location.reload();
-                            }
-                            else {
-                                $("#btnModalOk").unbind("click");
-                                $("#btnModalOk").bind("click",function () {
-                                    $("#modal-default").modal("hide");
-                                })
-                                $("#modal-message").html(data.message);
-                                $("#modal-default").modal("show");
-                            }
+                            });
                         }
-                    });
-                },500)
-            }
+
+                        // 请求失败
+                        else {
+                            // 确定按钮的事件改为隐藏模态框
+                            $("#btnModalOk").bind("click", function () {
+                                $("#modal-default").modal("hide");
+                            });
+                        }
+
+                        // 因为无论如何都需要提示信息，所以这里的模态框是必须调用的
+                        $("#modal-message").html(data.message);
+                        $("#modal-default").modal("show");
+                    }
+                });
+            }, 500)
         }
     };
 
     /**
-     * 初始化DataTbale
+     * 初始化 DataTables
      */
-    var handlerInitDataTables = function (url,columns) {
+    var handlerInitDataTables = function (url, columns) {
         var _dataTable = $("#dataTable").DataTable({
             "paging": true,
             "info": true,
+            "lengthChange": false,
+            "ordering": false,
             "processing": true,
+            "searching": false,
             "serverSide": true,
             "deferRender": true,
-            "searching": false,
-            "ordering": false,
-            "lengthChange": false,
             "ajax": {
                 "url": url
             },
@@ -161,20 +202,99 @@ var App = function () {
                 handlerCheckboxAll();
             }
         });
+
         return _dataTable;
     };
 
+    /**
+     * 初始化 zTree
+     * @param url
+     * @param autoParam
+     * @param callback
+     */
+    var handlerInitZTree = function (url, autoParam, callback) {
+        var setting = {
+            view: {
+                selectedMulti: false
+            },
+            async: {
+                enable: true,
+                url: url,
+                autoParam: autoParam
+            }
+        };
+
+        $.fn.zTree.init($("#myTree"), setting);
+
+        $("#btnModalOk").bind("click", function () {
+            var zTree = $.fn.zTree.getZTreeObj("myTree");
+            var nodes = zTree.getSelectedNodes();
+
+            // 未选择
+            if (nodes.length == 0) {
+                alert("请选择一个节点");
+            }
+            // 已选择
+            else {
+                callback(nodes);
+            }
+        });
+    };
+
+    /**
+     * 初始化 Dropzone
+     * @param opts
+     */
+    var handlerInitDropzone = function (opts) {
+        // 关闭 Dropzone 的自动发现功能
+        Dropzone.autoDiscover = false;
+        // 继承
+        $.extend(defaultDropzoneOpts, opts);
+        new Dropzone(defaultDropzoneOpts.id, defaultDropzoneOpts);
+    };
+
+    /**
+     * 查看详情
+     * @param url
+     */
+    var handlerShowDetail = function (url) {
+        // 这里是通过 Ajax 请求 html 的方式将 jsp 装载进模态框中
+        $.ajax({
+            url: url,
+            type: "get",
+            dataType: "html",
+            success: function (data) {
+                $("#modal-detail-body").html(data);
+                $("#modal-detail").modal("show");
+            }
+        });
+    };
+
     return {
-        init: function () {
+        /**
+         * 初始化
+         */
+        init: function() {
             handlerInitCheckbox();
             handlerCheckboxAll();
         },
-        getCheckbox: function () {
-            return _checkbox;
+
+        /**
+         * 删除单笔数据
+         * @param url
+         */
+        deleteSingle: function(url, id, msg) {
+            handlerDeleteSingle(url, id, msg);
         },
-        deleteMedium: function(url) {
+
+        /**
+         * 批量删除
+         * @param url
+         */
+        deleteMulti: function (url) {
             handlerDeleteMulti(url);
         },
+
         /**
          * 初始化 DataTables
          * @param url
@@ -184,6 +304,29 @@ var App = function () {
         initDataTables: function (url, columns) {
             return handlerInitDataTables(url, columns);
         },
+
+        /**
+         * 初始化 zTree
+         * @param url
+         * @param autoParam
+         * @param callback
+         */
+        initZTree: function(url, autoParam, callback) {
+            handlerInitZTree(url, autoParam, callback);
+        },
+
+        /**
+         * 初始化 Dropzone
+         * @param opts
+         */
+        initDropzone: function(opts) {
+            handlerInitDropzone(opts);
+        },
+
+        /**
+         * 显示详情
+         * @param url
+         */
         showDetail: function (url) {
             handlerShowDetail(url);
         }
@@ -192,4 +335,4 @@ var App = function () {
 
 $(document).ready(function () {
     App.init();
-})
+});
