@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TbUserServiceImpl implements TbUserService {
@@ -99,6 +101,19 @@ public class TbUserServiceImpl implements TbUserService {
     @Override
     public void deleteMulti(String[] ids) {
         tbUserDao.deleteMulti(ids);
+    }
+
+    @Override
+    public List<TbUser> page(int start, int length) {
+        Map<String ,Object> params = new HashMap<>();
+        params.put("start",start);
+        params.put("length",length);
+        return tbUserDao.page(params);
+    }
+
+    @Override
+    public int count() {
+        return tbUserDao.count();
     }
 
     /**
