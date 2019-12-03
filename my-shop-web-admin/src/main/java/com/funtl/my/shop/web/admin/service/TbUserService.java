@@ -1,10 +1,12 @@
 package com.funtl.my.shop.web.admin.service;
 
 import com.funtl.my.shop.commons.dto.BaseResult;
+import com.funtl.my.shop.commons.dto.PageInfo;
 import com.funtl.my.shop.domain.TbUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -49,7 +51,7 @@ public interface TbUserService {
      * @param length
      * @return
      */
-    List<TbUser> page(int start,int length);
+    PageInfo<TbUser> page(int start, int length, int draw);
 
     /**
      * 查询总体数

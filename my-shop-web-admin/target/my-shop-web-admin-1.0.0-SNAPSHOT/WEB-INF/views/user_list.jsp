@@ -145,65 +145,27 @@
 <sys:modal/>
 <script>
     $(function () {
-        $("#dataTable").DataTable({
-            "paging": true,
-            "info": true,
-            "processing": true,
-            "serverSide": true,
-            "deferRender": true,
-            "searching": false,
-            "ordering": false,
-            "lengthChange": false,
-            "ajax": {
-                "url": "/user/page"
-            },
-            "columns": [
-                {
-                    "data":function (row,type,val,meta) {
-                       return '<input id="'+row.id+'" type="checkbox" class="minimal " />';
-                    }
-                },
-                {"data":"id"},
-                {"data":"username"},
-                {"data":"phone"},
-                {"data":"email"},
-                {"data":"updated"},
-                {
-                 "data":function (row,type,val,meta) {
-                     return '<a href="https://www.baidu.com" type="button" class="btn btn-success btn-sm"><icon class="fa fa-fw fa-tree"></icon>查看</a>'+
-                             '<a type="button" class="btn btn-primary btn-sm"><i class="fa fa-fw fa-venus-mars"></i>编辑</a>'+
-                             '<a type="button" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash-o"></i>删除</a>';
-                 }
-                }
-            ],
-            "language": {
-                "sProcessing": "处理中...",
-                "sLengthMenu": "显示 _MENU_ 项结果",
-                "sZeroRecords": "没有匹配结果",
-                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-                "sInfoPostFix": "",
-                "sSearch": "搜索:",
-                "sUrl": "",
-                "sEmptyTable": "表中数据为空",
-                "sLoadingRecords": "载入中...",
-                "sInfoThousands": ",",
-                "oPaginate": {
-                    "sFirst": "首页",
-                    "sPrevious": "上页",
-                    "sNext": "下页",
-                    "sLast": "末页"
-                },
-                "oAria": {
-                    "sSortAscending": ": 以升序排列此列",
-                    "sSortDescending": ": 以降序排列此列"
+        const _columns =
+        [
+            {
+                "data":function (row,type,val,meta) {
+                    return '<input id="'+row.id+'" type="checkbox" class="minimal " />';
                 }
             },
-            "drawCallback": function( settings ) {
-                App.init();
+            {"data":"id"},
+            {"data":"username"},
+            {"data":"phone"},
+            {"data":"email"},
+            {"data":"updated"},
+            {
+                "data":function (row,type,val,meta) {
+                    return '<a href="https://www.baidu.com" type="button" class="btn btn-success btn-sm"><icon class="fa fa-fw fa-tree"></icon>查看</a>'+
+                        '<a type="button" class="btn btn-primary btn-sm"><i class="fa fa-fw fa-venus-mars"></i>编辑</a>'+
+                        '<a type="button" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash-o"></i>删除</a>';
+                }
             }
-        });
+        ]
+        App.initDataTables("/user/page",_columns);
     });
 </script>
 </body>

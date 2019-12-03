@@ -1,6 +1,7 @@
 package com.funtl.my.shop.web.admin.web.controller;
 
 import com.funtl.my.shop.commons.dto.BaseResult;
+import com.funtl.my.shop.commons.dto.PageInfo;
 import com.funtl.my.shop.domain.TbUser;
 import com.funtl.my.shop.web.admin.service.TbUserService;
 import org.apache.commons.lang3.StringUtils;
@@ -108,9 +109,7 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "page",method = RequestMethod.GET)
-    public Map<String,Object> page(HttpServletRequest request) {
-      Map<String,Object> result = new HashMap<>();
-
+    public PageInfo<TbUser> page(HttpServletRequest request) {
       String strDraw = request.getParameter("draw");
       String strStart = request.getParameter("start");
       String strLength = request.getParameter("length");
@@ -120,15 +119,9 @@ public class UserController {
      int length = strLength == null ? 0 : Integer.parseInt(strLength);
 
     //封装Datatables需要的结果
-      List<TbUser> tbUsers = tbUserService.page(start,length);
-      int count = tbUserService.count();
-      result.put("draw",draw);
-      result.put("recordsTotal",count);
-      result.put("recordsFiltered",count);
-      result.put("data",tbUsers);
-      result.put("error","");
+     PageInfo<TbUser> pageInfo = tbUserService.page(start,length,draw);
 
-        return result;
+        return pageInfo;
     }
 
 
