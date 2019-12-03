@@ -93,6 +93,15 @@ public class TbUserServiceImpl implements TbUserService {
     }
 
     /**
+     * 批量删除
+     * @param ids
+     */
+    @Override
+    public void deleteMulti(String[] ids) {
+        tbUserDao.deleteMulti(ids);
+    }
+
+    /**
      * 用户信息验证
      * @param tbUser
      * @return

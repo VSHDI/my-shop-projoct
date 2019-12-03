@@ -1,9 +1,8 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ attribute name="title" type="java.lang.String" required="false" description="模拟框的标题"%>
-<%@ attribute name="msg" type="java.lang.String" required="true" description="模拟框的标题"%>
-<%@ attribute name="opts" type="java.lang.String" required="false" description="模拟框的标题"%>
-<%@ attribute name="url" type="java.lang.String" required="false" description="模拟框的标题"%>
+<%@ attribute name="message" type="java.lang.String" required="false" description="模拟框的标题"%>
+
 
 <div class="modal fade" id="modal-default">
     <div class="modal-dialog">
@@ -14,7 +13,7 @@
                 <h4 class="modal-title">${title == null ? "温馨提示" : title}</h4>
             </div>
             <div class="modal-body">
-                <p>${msg}&hellip;</p>
+                <p id="modal-message">${message}</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
@@ -25,16 +24,3 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-
-<script>
-    $(function (){
-        $("#btnModalOk").bind("click",function(){
-            <c:if test="${opts != 'confirm'}">
-            $("#modal-default").modal("hide");
-            </c:if>
-            <c:if test="${opts == 'confirm'}">
-            console.log("${url}");
-            </c:if>
-        });
-    });
-</script>

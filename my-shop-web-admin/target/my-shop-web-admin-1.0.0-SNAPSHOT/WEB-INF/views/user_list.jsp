@@ -91,7 +91,7 @@
                         <div class="box-body">
                             <div class="row" style="padding-left: 10px;padding-top: 10px">
                                 <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-medkit"></i>新建</a>
-                                <a href="#" type="button" class="btn btn-default btn-xs" onclick="deleteMulti()"><i class="fa fa-fw fa-heartbeat"></i>删除</a>
+                                <button type="button" class="btn btn-default btn-xs" onclick="App.deleteMedium('/user/delete')"><i class="fa fa-fw fa-heartbeat"></i>删除</button>
                                 <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-heart"></i>导入</a>
                                 <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-fw fa-heart-o"></i>导出</a>
                                 <button type="submit" class="btn btn-sm btn-primary" onclick="$('.box-info-search').css('display') == 'none' ? $('.box-info-search').show('fast') : $('.box-info-search').hide('fast')"><i class="fa fa-search"></i> 搜索</button>
@@ -142,28 +142,7 @@
     <jsp:include page="../includes/copyright.jsp" />
 </div>
 <jsp:include page="../includes/footer.jsp" />
-<sys:modal title="你好" msg="笨蛋" opts="confirm" url="/user/delete"/>
-<script>
-    $(function (){
-       $("#btnModalOk").bind("click",function(){
-           $("#modal-default").modal("hide");
-       }) ;
-    });
+<sys:modal/>
 
-    function deleteMulti() {
-     var idArray = new Array();
-     var _checkbox = App.getCheckbox();
-        // 将选中元素的 ID 放入数组中
-        _checkbox.each(function () {
-            var _id =$(this).attr("id");
-            if (_id != null && _id != "undefine" && $(this).is(":checked")) {
-                idArray.push(_id);
-            }
-        });
-        if (idArray.length === 0) {
-            $("#modal-default").modal("show");
-        }
-    }
-</script>
 </body>
 </html>
