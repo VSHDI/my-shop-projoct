@@ -40,6 +40,23 @@ var App = function () {
     };
 
     /**
+     * 查看详情
+     * @param url
+     */
+    var handlerShowDetail = function (url) {
+        // 这里是通过 Ajax 请求 html 的方式将 jsp 装载进模态框中
+        $.ajax({
+            url: url,
+            type: "get",
+            dataType: "html",
+            success: function (data) {
+                $("#modal-detail-body").html(data);
+                $("#modal-detail").modal("show");
+            }
+        });
+    };
+
+    /**
      * 批量删除
      */
     var handlerDeleteMulti =  function (url) {
@@ -165,6 +182,9 @@ var App = function () {
          */
         initDataTables: function (url, columns) {
             return handlerInitDataTables(url, columns);
+        },
+        showDetail: function (url) {
+            handlerShowDetail(url);
         }
     }
 }();

@@ -159,8 +159,9 @@
             {"data":"updated"},
             {
                 "data":function (row,type,val,meta) {
-                    return '<a href="https://www.baidu.com" type="button" class="btn btn-success btn-sm"><icon class="fa fa-fw fa-tree"></icon>查看</a>'+
-                        '<a type="button" class="btn btn-primary btn-sm"><i class="fa fa-fw fa-venus-mars"></i>编辑</a>'+
+                    const detailUrl = "/user/detail?id="+row.id;
+                    return '<button type="button" class="btn btn-success btn-sm" onclick="App.showDetail(\'' + detailUrl + '\')"><icon class="fa fa-fw fa-tree"></icon>查看</button>'+
+                        '<a href="/user/form?id='+row.id+'" type="button" class="btn btn-primary btn-sm"><i class="fa fa-fw fa-venus-mars"></i>编辑</a>'+
                         '<a type="button" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash-o"></i>删除</a>';
                 }
             }

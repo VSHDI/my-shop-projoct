@@ -44,21 +44,12 @@ public class UserController {
 
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    public String list(Model model){
-        List<TbUser> tbUsers = tbUserService.selectAll();
-        System.out.println("这是热部署吗？");
-        System.out.println("我确定这是热部署");
-        System.out.println("我不确定是否够快，或者说cpu不会爆开");
-        System.out.println("快吗？");
-        System.out.println("还可以");
-        model.addAttribute("tbUsers",tbUsers);
+    public String list(){
         return "user_list";
     }
 
     @RequestMapping(value = "form",method = RequestMethod.GET)
-    public String from(Model model) {
-        TbUser tbUser = new TbUser();
-        model.addAttribute("tbUser",tbUser);
+    public String from() {
         return "user_form";
     }
 
@@ -125,4 +116,14 @@ public class UserController {
     }
 
 
+    /**
+     * 显示用户详情
+     * @param tbUser
+     * @return
+     */
+    @RequestMapping(value = "detail",method = RequestMethod.GET)
+    public String detail(TbUser tbUser) {
+        System.out.println(tbUser.getUsername());
+        return "user_detail";
+    }
 }

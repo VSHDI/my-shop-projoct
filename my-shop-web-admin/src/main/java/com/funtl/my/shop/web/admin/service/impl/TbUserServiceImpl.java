@@ -38,12 +38,13 @@ public class TbUserServiceImpl implements TbUserService {
             if (tbUser.getId() == null) {
                 tbUser.setCreated(new Date());
                 tbUserDao.insert(tbUser);
+                baseResult.setMessage("保存俺不吃用户信息成功");
             }
             /*编辑用户*/
             else {
                 tbUserDao.update(tbUser);
+                baseResult.setMessage("更新用户信息成功");
             }
-            baseResult.setMessage("保存用户信息成功");
         }
         return baseResult;
     }
