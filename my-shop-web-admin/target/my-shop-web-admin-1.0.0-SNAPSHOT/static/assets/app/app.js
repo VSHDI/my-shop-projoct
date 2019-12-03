@@ -119,7 +119,7 @@ var App = function () {
      * 初始化DataTbale
      */
     var handlerInitDataTables = function (url,columns) {
-        $("#dataTable").DataTable({
+        var _dataTable = $("#dataTable").DataTable({
             "paging": true,
             "info": true,
             "processing": true,
@@ -161,7 +161,8 @@ var App = function () {
                 handlerCheckboxAll();
             }
         });
-    }
+        return _dataTable;
+    };
 
     return {
         init: function () {

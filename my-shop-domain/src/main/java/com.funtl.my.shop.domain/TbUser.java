@@ -1,5 +1,6 @@
 package com.funtl.my.shop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.funtl.my.shop.commons.persistence.BaseEntity;
 
 import java.io.Serializable;
@@ -23,6 +24,7 @@ public class TbUser extends BaseEntity {
         this.username = username;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

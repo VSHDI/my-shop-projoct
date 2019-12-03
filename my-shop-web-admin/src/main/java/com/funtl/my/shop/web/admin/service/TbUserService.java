@@ -51,11 +51,11 @@ public interface TbUserService {
      * @param length
      * @return
      */
-    PageInfo<TbUser> page(int start, int length, int draw);
+    PageInfo<TbUser> page(int start, int length, int draw,TbUser tbUser);
 
     /**
      * 查询总体数
      * @return
      */
-    int count();
+    int count(TbUser tbUser);
 }
